@@ -1,0 +1,5 @@
+node_modules
+.next
+client/.next
+**/node_modules
+**/.next
