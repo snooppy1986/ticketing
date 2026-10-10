@@ -1,4 +1,4 @@
-name: tests-payments
+name: tests-auth
 
 on: 
   pull_request
@@ -10,4 +10,4 @@ jobs:
       MONGOMS_VERSION: "6.0.19"
     steps:
       - uses: actions/checkout@v2
-      - run: cd payments && npm install && npm run test:ci
+      - run: cd auth && npm install && npm run test:ci
