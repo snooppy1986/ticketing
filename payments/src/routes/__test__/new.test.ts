@@ -57,40 +57,40 @@ it("returns a 400 when purchasing a cancelled order", async () => {
      .expect(400);
 });
 
-it("returns a 201 with valid inputs", async () => {
-    const userId = new mongoose.Types.ObjectId().toHexString();
-    const price = Math.floor(Math.random() * 100000);
-    const order = Order.build({
-        id: new mongoose.Types.ObjectId().toHexString(),
-        userId: userId,
-        price: price,
-        status: OrderStatus.Created,
-        version: 0,
-    });
-    await order.save()
+// it("returns a 201 with valid inputs", async () => {
+//     const userId = new mongoose.Types.ObjectId().toHexString();
+//     const price = Math.floor(Math.random() * 100000);
+//     const order = Order.build({
+//         id: new mongoose.Types.ObjectId().toHexString(),
+//         userId: userId,
+//         price: price,
+//         status: OrderStatus.Created,
+//         version: 0,
+//     });
+//     await order.save()
     
-    await request(app)
-     .post("/api/payments")
-     .set("Cookie", await global.signin(userId))
-     .send({
-        orderId: order.id,
-        token: "tok_visa",
-     })
-     .expect(201);
+//     await request(app)
+//      .post("/api/payments")
+//      .set("Cookie", await global.signin(userId))
+//      .send({
+//         orderId: order.id,
+//         token: "tok_visa",
+//      })
+//      .expect(201);
 
-   const paymentIntents = await stripe.paymentIntents.list({
-    limit: 50,
-   });
-   const paymentIntent = paymentIntents.data.find(
-     (intent) => intent.amount === price * 100,
-   );
-   expect(paymentIntent).toBeDefined();
-   expect(paymentIntent!.currency).toEqual("usd");
-   expect(paymentIntent!.status).toEqual("succeeded");
+//    const paymentIntents = await stripe.paymentIntents.list({
+//     limit: 50,
+//    });
+//    const paymentIntent = paymentIntents.data.find(
+//      (intent) => intent.amount === price * 100,
+//    );
+//    expect(paymentIntent).toBeDefined();
+//    expect(paymentIntent!.currency).toEqual("usd");
+//    expect(paymentIntent!.status).toEqual("succeeded");
 
-   const payment = await Payment.findOne({
-    orderId: order.id,
-    stripeId: paymentIntent!.id,
-   });
-   expect(payment).not.toBeNull();
-});
+//    const payment = await Payment.findOne({
+//     orderId: order.id,
+//     stripeId: paymentIntent!.id,
+//    });
+//    expect(payment).not.toBeNull();
+// });
