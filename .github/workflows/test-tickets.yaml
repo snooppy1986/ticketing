@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     env:
-      MONGOMS_VERSION: 7.0.14
+      MONGOMS_VERSION: "6.0.19"
     steps:
       - uses: actions/checkout@v2
       - run: cd tickets && npm install && npm run test:ci
